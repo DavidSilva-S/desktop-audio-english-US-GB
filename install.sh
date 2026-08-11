@@ -1,46 +1,18 @@
-#!/bin/sh
-# ---------------------------------------------------------------------------
-# Instalador de desktop-audio-english-US-GB
-#
-# Uso:
-#   curl -fsSL https://SEU-DOMINIO/install.sh | sh
-#
-# Este script:
-#   1. Detecta SO e arquitetura
-#   2. Baixa o binário correto do último release no GitHub
-#   3. Instala em ~/.local/bin (ou /usr/local/bin se rodar como root)
-#   4. Verifica se o diretório de instalação está no PATH
-#
-# Releases: https://github.com/DavidSilva-S/desktop-audio-english-US-GB/releases
-# ---------------------------------------------------------------------------
-
+#!/bin/env sh
 set -eu
 
 # ------------------------- CONFIGURAÇÃO -------------------------
 GITHUB_REPO="DavidSilva-S/desktop-audio-english-US-GB"
 BINARY_NAME="desktop-audio-english-US-GB"
-# Nome do padrão de arquivo do release, sem extensão. Deve bater com o que
-# o seu processo de build/release gera (ex: via goreleaser).
-# Placeholders disponíveis: {version} {os} {arch} {ext}
-# ATENÇÃO: confira o nome exato do asset na página de releases e ajuste
-# este padrão se necessário — o tag da release atual é "language", não
-# segue o formato semver (vX.Y.Z) usado como exemplo no restante do script.
-ASSET_PATTERN="${BINARY_NAME}_{version}_{os}_{arch}{ext}"
+ASSET_PATTERN="${BINARY_NAME}"
 
-# Assets opcionais: binário do Piper e pacote de vozes. Se algum desses
-# não existir no release (nome não bate), o script apenas avisa e segue
-# em frente — o programa checa a instalação sozinho e orienta o usuário.
-# Nomes exatos conforme publicados no release atual (não usam {version}
-# nem {arch} dinâmicos — são nomes fixos, ajuste aqui se isso mudar).
 PIPER_ASSET_PATTERN="piper_linux_amd64{ext}"
 VOICES_ASSET_PATTERN="pipe_voices{ext}"
 
-# Diretórios de dados da aplicação, seguindo o padrão XDG — devem bater
-# com o que o programa em Go espera (resolveAppDirs em main.go).
 DATA_DIR="${XDG_DATA_HOME:-${HOME}/.local/share}/${BINARY_NAME}"
 PIPER_DIR="${DATA_DIR}/piper"
 VOICES_DIR="${DATA_DIR}/piper-voices"
-# ------------------------------------------------------------------
+AUDIOS_DIR="${DATA_DIR}/audios"
 
 BOLD="$(printf '\033[1m')"
 GREEN="$(printf '\033[32m')"
@@ -61,8 +33,6 @@ require_cmd() {
 require_cmd curl
 require_cmd uname
 require_cmd tar
-
-# Verificação de checksum desativada — ver bloco "CHECKSUM" mais abaixo.
 
 # ------------------------- DETECÇÃO DE PLATAFORMA -------------------------
 detect_os() {
@@ -186,11 +156,13 @@ download_and_extract() {
         return 1
     fi
 
-    mkdir -p "$dest_dir"
     tar -xzf "${TMP_DIR}/${asset_name}" -C "$dest_dir"
     ok "${label} instalado em ${dest_dir}"
     return 0
 }
+
+info "Criando estrutura de pastas em ${DATA_DIR}..."
+mkdir -p "$PIPER_DIR" "$VOICES_DIR" "$AUDIOS_DIR"
 
 download_and_extract "$PIPER_ASSET_PATTERN" "$PIPER_DIR" "Piper" || true
 download_and_extract "$VOICES_ASSET_PATTERN" "$VOICES_DIR" "Vozes en_GB" || true

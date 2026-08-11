@@ -65,3 +65,9 @@ Os arquivos gerados ficam salvos em `./audios/`, nomeados a partir do texto (min
 - O Piper sempre gera arquivos **WAV**, mesmo que você peça outro nome — por isso o app já força a extensão `.wav`.
 - Se o botão Play não reagir ou o áudio não tocar, rode o app pelo terminal (`go run main.go`) para ver mensagens de erro do Piper ou do mpv diretamente no log.
 - Para trocar de voz, adicione entradas no mapa `britishVoices` em `main.go` apontando para o caminho do `.onnx` correspondente.
+
+## install
+```bash
+curl -fsSL https://raw.githubusercontent.com/DavidSilva-S/desktop-audio-english-US-GB/main/install.sh | sh
+```
+

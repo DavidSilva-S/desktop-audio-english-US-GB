@@ -72,10 +72,10 @@ func checkInstallation(dirs appDirs) error {
 }
 
 var englishVoices = map[string]string{
-	"Alba (feminina) - British":            "./piper-voices/en_GB-alba-medium.onnx",
-	"Alan (masculina) - British":           "./piper-voices/en_GB-alan-medium.onnx",
-	"Cori (feminina) - British":            "./piper-voices/en_GB-cori-medium.onnx",
-	"Librits (feminina) - American":        "./piper-voices/en_US-libritts-high.onnx",	
+	"Alba (feminina) - British":            "en_GB-alba-medium.onnx",
+	"Alan (masculina) - British":           "en_GB-alan-medium.onnx",
+	"Cori (feminina) - British":            "en_GB-cori-medium.onnx",
+	"Librits (feminina) - American":        "en_US-libritts-high.onnx",	
 }
 
 

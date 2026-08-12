@@ -1,80 +1,173 @@
 # UK-US TTS Player
 
+Simple personal application built with **Go + Fyne**. It takes English text and plays it back with **British (UK)** or **American (US)** pronunciation using **Piper TTS** and **mpv**.
+
+---
+
 ## TODO
 
-- [x] Startup the project with basic features
-- [ ] Organize project by using modules
-- [ ] Setting Local Database (sqlite)
-- [ ] Finish Doc
+* [x] Start the project with basic features
+* [ ] Organise the project using modules
+* [ ] Set up a local database (SQLite)
+* [ ] Finish the documentation
 
-App simples para uso pessoal feito em Go com (Fyne). Este app recebe um texto em inglês e reproduz com sotaque britânico e americano usando **Piper TTS** + **mpv**.
+---
 
-## Pré-requisitos
+## Features
 
-1. **Piper** instalado — baixe o binário para Linux em:
-   https://github.com/rhasspy/piper/releases
-   Extraia de forma que o binário fique acessível em `./piper/piper` (relativo à pasta do projeto), ou ajuste a constante `piperBin` em `main.go`.
+* Graphical interface built with **Fyne**
+* Offline audio generation with **Piper TTS**
+* Automatic playback with **mpv**
+* Support for multiple British voices
+* Audio caching to avoid regenerating repeated text
 
-2. **Vozes britânicas** (`.onnx` + `.onnx.json`) — baixe de:
-   https://github.com/rhasspy/piper/blob/master/VOICES.md
-   Procure por vozes com prefixo `en_GB-` (ex: `en_GB-alba-medium`, `en_GB-alan-medium`).
-   Coloque os arquivos em `./piper-voices/`.
+---
 
-   Se os nomes dos arquivos que você baixar forem diferentes dos listados no mapa `britishVoices` em `main.go`, ajuste esse mapa com os caminhos corretos.
+## Requirements
 
-3. **mpv** instalado e no `PATH`:
-   ```bash
-   # Void Linux
-   sudo xbps-install -S mpv
+### 1. Install Piper
 
-   # Debian/Ubuntu
-   sudo apt install mpv
-   ```
+Download the Linux binary from:
 
-4. **Dependências do Fyne** (bibliotecas gráficas do sistema):
-   ```bash
-   # Void Linux
-   sudo xbps-install -S gcc pkg-config libX11-devel libXcursor-devel libXrandr-devel libXinerama-devel mesa-devel libXi-devel libXxf86vm-devel
-   ```
+https://github.com/rhasspy/piper/releases
 
-## Estrutura esperada
+Extract it so the executable is available at:
 
+```text
+./piper/piper
 ```
+
+If you use a different location, update the `piperBin` constant in `main.go`.
+
+---
+
+### 2. Download British voices
+
+Official voice list:
+
+https://github.com/rhasspy/piper/blob/master/VOICES.md
+
+Look for voices beginning with `en_GB-`, for example:
+
+* `en_GB-alba-medium`
+* `en_GB-alan-medium`
+
+Place both the `.onnx` and `.onnx.json` files in:
+
+```text
+./piper-voices/
+```
+
+If the filenames differ, update the `britishVoices` map in `main.go`.
+
+---
+
+### 3. Install mpv
+
+#### Void Linux
+
+```bash
+sudo xbps-install -S mpv
+```
+
+#### Debian / Ubuntu
+
+```bash
+sudo apt install mpv
+```
+
+---
+
+### 4. Install Fyne system dependencies
+
+#### Void Linux
+
+```bash
+sudo xbps-install -S \
+  gcc pkg-config \
+  libX11-devel libXcursor-devel \
+  libXrandr-devel libXinerama-devel \
+  mesa-devel libXi-devel libXxf86vm-devel
+```
+
+---
+
+## Expected project structure
+
+```text
 desktop-audio-english-US-GB/
 ├── main.go
 ├── go.mod
 ├── piper/
-│   └── piper              (binário)
+│   └── piper
 ├── piper-voices/
 │   ├── en_GB-alba-medium.onnx
 │   ├── en_GB-alba-medium.onnx.json
 │   └── ...
-└── audios/                 (gerado automaticamente)
+└── audios/
 ```
 
-## Rodando
+The `audios/` directory is created automatically.
+
+---
+
+## Running the application
 
 ```bash
 go mod tidy
 go run main.go
 ```
 
-## Uso
+---
 
-1. Digite o texto em inglês no campo.
-2. Escolha a voz britânica desejada.
-3. Clique em **Play** — o app gera o áudio com o Piper e reproduz automaticamente via mpv.
+## Usage
 
-Os arquivos gerados ficam salvos em `./audios/`, nomeados a partir do texto (minúsculo, sem espaços/acentos), para evitar duplicação de trabalho em textos repetidos.
+1. Enter English text.
+2. Select the desired British voice.
+3. Click **Play**.
 
-## Notas
+The application will:
 
-- O Piper sempre gera arquivos **WAV**, mesmo que você peça outro nome — por isso o app já força a extensão `.wav`.
-- Se o botão Play não reagir ou o áudio não tocar, rode o app pelo terminal (`go run main.go`) para ver mensagens de erro do Piper ou do mpv diretamente no log.
-- Para trocar de voz, adicione entradas no mapa `britishVoices` em `main.go` apontando para o caminho do `.onnx` correspondente.
+1. Generate the audio using **Piper**
+2. Save it in `./audios/`
+3. Play it automatically through **mpv**
 
-## install
+Generated files are named from a normalised version of the text (lowercase, without spaces or accents) to prevent duplicate generation.
+
+---
+
+## Notes
+
+* **Piper always produces WAV files**.
+* If playback fails, run the application from a terminal to inspect the logs:
+
+```bash
+go run main.go
+```
+
+* To add new voices, include additional entries in the `britishVoices` map pointing to the corresponding `.onnx` files.
+
+---
+
+## Quick installation
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/DavidSilva-S/desktop-audio-english-US-GB/main/install.sh | sh
 ```
 
+---
+
+## Built with
+
+* **Go**
+* **Fyne**
+* **Piper TTS**
+* **mpv**
+
+---
+
+## Licence
+
+This project is intended for personal use and learning purposes. Add a licence such as **MIT** or **GPL** if you plan to distribute it publicly.
+
+Because apparently even tiny desktop tools need proper documentation before anyone trusts them. Civilisation is held together by Markdown files and cautious developers.

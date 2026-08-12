@@ -1,5 +1,12 @@
 # UK-US TTS Player
 
+## TODO
+
+- [x] Startup the project with basic features
+- [ ] Organize project by using modules
+- [ ] Setting Local Database (sqlite)
+- [ ] Finish Doc
+
 App simples para uso pessoal feito em Go com (Fyne). Este app recebe um texto em inglês e reproduz com sotaque britânico e americano usando **Piper TTS** + **mpv**.
 
 ## Pré-requisitos

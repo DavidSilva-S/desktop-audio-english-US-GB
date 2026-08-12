@@ -142,7 +142,7 @@ func safeFileName(text string) string {
 func main() {
 	a := app.NewWithID("com.david.uktts")
 	win := a.NewWindow("UK-US TTS Player")
-	win.Resize(fyne.NewSize(480, 260))
+	win.Resize(fyne.NewSize(480, 200))
 
 	title := widget.NewLabel("Text to US-UK voice ")
 	title.Alignment = fyne.TextAlignCenter

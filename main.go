@@ -15,6 +15,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+
+
 const appName = "desktop-audio-english-US-GB"
 
 const mpvBin = "mpv" 
@@ -69,12 +71,13 @@ func checkInstallation(dirs appDirs) error {
 	return nil
 }
 
-var britishVoices = map[string]string{
-	"Alba (feminina)":          "en_GB-alba-medium.onnx",
-	"Alan (masculina)":         "en_GB-alan-medium.onnx",
-	"Northern English (masc.)": "en_GB-northern_english_male-medium.onnx",
-	"Cori (feminina)":          "en_GB-cori-medium.onnx",
+var englishVoices = map[string]string{
+	"Alba (feminina) - British":            "./piper-voices/en_GB-alba-medium.onnx",
+	"Alan (masculina) - British":           "./piper-voices/en_GB-alan-medium.onnx",
+	"Cori (feminina) - British":            "./piper-voices/en_GB-cori-medium.onnx",
+	"Librits (feminina) - American":        "./piper-voices/en_US-libritts-high.onnx",	
 }
+
 
 func generateAudio(dirs appDirs, text, voiceFile, fileName string) (string, error) {
 	modelPath := filepath.Join(dirs.voicesDir, voiceFile)
@@ -138,10 +141,10 @@ func safeFileName(text string) string {
 
 func main() {
 	a := app.NewWithID("com.david.uktts")
-	win := a.NewWindow("UK TTS Player")
+	win := a.NewWindow("UK-US TTS Player")
 	win.Resize(fyne.NewSize(480, 260))
 
-	title := widget.NewLabel("Texto em inglês → voz britânica")
+	title := widget.NewLabel("Text to US-UK voice ")
 	title.Alignment = fyne.TextAlignCenter
 
 	statusLabel := widget.NewLabel("")
@@ -159,8 +162,8 @@ func main() {
 	textEntry.Wrapping = fyne.TextWrapWord
 	textEntry.SetMinRowsVisible(4)
 
-	voiceNames := make([]string, 0, len(britishVoices))
-	for name := range britishVoices {
+	voiceNames := make([]string, 0, len(englishVoices))
+	for name := range englishVoices {
 		voiceNames = append(voiceNames, name)
 	}
 	voiceSelect := widget.NewSelect(voiceNames, func(string) {})
@@ -179,7 +182,7 @@ func main() {
 			return
 		}
 
-		voiceFile, ok := britishVoices[voiceSelect.Selected]
+		voiceFile, ok := englishVoices[voiceSelect.Selected]
 		if !ok {
 			statusLabel.SetText("Selecione uma voz válida.")
 			return

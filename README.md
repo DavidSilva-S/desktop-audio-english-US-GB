@@ -7,6 +7,7 @@ Simple personal application built with **Go + Fyne**. It takes English text and 
 ## TODO
 
 * [x] Start the project with basic features
+* [ ] Make it compatible with Windows
 * [ ] Organise the project using modules
 * [ ] Set up a local database (SQLite)
 * [ ] Finish the documentation

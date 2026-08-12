@@ -168,6 +168,6 @@ curl -fsSL https://raw.githubusercontent.com/DavidSilva-S/desktop-audio-english-
 
 ## Licence
 
-This project is intended for personal use and learning purposes. Add a licence such as **MIT** or **GPL** if you plan to distribute it publicly.
+This project is intended for personal use and learning purposes. 
 
 Because apparently even tiny desktop tools need proper documentation before anyone trusts them. Civilisation is held together by Markdown files and cautious developers.
